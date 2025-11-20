@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FSKM Student Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Times New Roman, serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, rgba(224, 224, 224, 0.8), rgba(245, 245, 245, 0.8)), url('https://media.licdn.com/dms/image/v2/C561BAQHbzvCvMx2RSg/company-background_10000/company-background_10000/0/1585194224721/faculty_of_computer_and_mathematical_sciences_uitm_cover?e=2147483647&v=beta&t=TDUEgRv1eVbuuB3lyxs8UfX6O1vbYJVz0lr__tJQ9xg') no-repeat center center fixed;
+            background-size: cover;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s ease-in;
+            cursor: default;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+            transform: translateY(20px);
+            animation: slideUp 0.8s ease-out forwards;
+            cursor: default;
+        }
+
+        @keyframes slideUp {
+            to { transform: translateY(0); }
+        }
+
+        .header {
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            cursor: text;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+            background: white;
+            transform: scale(1.02);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            transition: color 0.3s;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #357abd, #2c5aa0);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.6);
+        }
+
+        .form-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .form-content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 25px 15px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FSKM Student Profile</h1>
+            <p>Please fill in your details below</p>
+        </div>
+        
+        <div class="form-content">
+            <form id="profileForm" action="ProfileServlet" method="post">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required 
+                           placeholder="Enter CAPITALISED full name" maxlength="50">
+                    <div class="char-count"><span id="nameCount">0</span>/50 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="studentId">Student ID *</label>
+                    <input type="text" id="studentId" name="studentId" required 
+                           placeholder="Enter student ID (e.g., 2020000000)" 
+                           pattern="[0-9]{10}">
+                    <div class="error-message" id="idError">Please enter a valid 10-digit student ID</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="program">Program *</label>
+                    <input type="text" id="program" name="program" required 
+                           placeholder="Enter program code (e.g., CDCS266)">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required 
+                           placeholder="your.email@student.edu">
+                </div>
+
+                <div class="form-group">
+                    <label for="hobbies">Hobbies *</label>
+                    <input type="text" id="hobbies" name="hobbies" required 
+                           placeholder="Enter your favourite past time activities">
+                    <div class="char-count"><span id="hobbyCount">0</span>/100 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="introduction">Self Introduction *</label>
+                    <textarea id="introduction" name="introduction" required 
+                              placeholder="Enter your past or anything"
+                              maxlength="500"></textarea>
+                    <div class="char-count"><span id="introCount">0</span>/500 characters</div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Create Student Profile
+                </button>
+            </form>
+            
+            <div class="form-note">
+                All with * must be filled in
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/cursor-effects@latest/dist/browser.js"></script>
+    <script type="module">
+      import { fairyDustCursor } from "https://unpkg.com/cursor-effects@latest/dist/esm.js";
+      new fairyDustCursor();
+    </script>
+    
+    <script>
+    document.getElementById('name').addEventListener('input', function() {
+        document.getElementById('nameCount').textContent = this.value.length;
+    });
+
+    document.getElementById('hobbies').addEventListener('input', function() {
+        document.getElementById('hobbyCount').textContent = this.value.length;
+    });
+
+    document.getElementById('introduction').addEventListener('input', function() {
+        document.getElementById('introCount').textContent = this.value.length;
+    });
+
+    // Student ID validation
+    document.getElementById('studentId').addEventListener('blur', function() {
+        const studentId = this.value;
+        const idError = document.getElementById('idError');
+
+        if (studentId.length !== 10 || !/^\d+$/.test(studentId)) {
+            this.style.borderColor = '#e74c3c';
+            idError.style.display = 'block';
+        } else {
+            this.style.borderColor = '#27ae60';
+            idError.style.display = 'none';
+        }
+    });
+
+    // Form validation
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+        let isValid = true;
+
+        const studentId = document.getElementById('studentId').value;
+        if (studentId.length !== 10 || !/^\d+$/.test(studentId)) {
+            document.getElementById('idError').style.display = 'block';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+            // Scroll to first error
+            document.querySelector('.error-message[style*="display: block"]')?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+    });
+
+    // Input effects
+    const inputs = document.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.style.borderColor = '#4a90e2';
+            this.style.boxShadow = '0 0 10px rgba(74, 144, 226, 0.3)';
+            this.style.transform = 'scale(1.02)';
+        });
+
+        input.addEventListener('blur', function() {
+            this.style.boxShadow = 'none';
+            this.style.transform = 'scale(1)';
+        });
+    });
+    </script>
+</body>
+</html>
