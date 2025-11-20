@@ -37,8 +37,8 @@ A simple Java web application for creating student profiles using Servlets and J
 3. View the generated profile on `profile.jsp`
 
 ## Author
-[Your Name]
-[Your Student ID]
+[HASYA DINI BINTI ROY FAHMI]
+[2025179327]
 
 ## Course
-CSC584 - Individual Assignment
+CSC584 - Individual Assignment 1
